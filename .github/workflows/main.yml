@@ -10,8 +10,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Docker
-        uses: docker/setup-buildx-action@v2
+      - name: Set up Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Download Checkstyle
+        run: |
+          wget -q -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.1/checkstyle-10.21.1-all.jar
 
       - name: Build Docker image
         run: |
@@ -23,4 +30,4 @@ jobs:
 
       - name: Run Java Linting
         run: |
-          docker run --rm -v "$(pwd)":/app code-linter java -jar checkstyle.jar -c google_checks.xml /app
+          docker run --rm -v "$(pwd)":/app code-linter java -jar /app/checkstyle.jar -c /app/google_checks.xml /app
