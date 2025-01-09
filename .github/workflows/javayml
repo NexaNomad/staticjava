@@ -1,0 +1,30 @@
+name: Checkstyle
+
+on: [push, pull_request]
+
+jobs:
+  checkstyle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Download Checkstyle
+        run: wget -q -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.21.1/checkstyle-10.21.1-all.jar
+
+      - name: Run Checkstyle
+        run: java -jar checkstyle.jar -c google_checks.xml sample.java
+        continue-on-error: true
+
+      - name: Annotate Pull Request
+        if: failure()
+        uses: docker://ghcr.io/staabm/annotate-pull-request-from-checkstyle
+        with:
+          report_files: checkstyle-result.xml
