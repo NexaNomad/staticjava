@@ -23,4 +23,4 @@ jobs:
 
       - name: Run Java Linting
         run: |
-          docker run --rm -v "$(pwd)":/app code-linter java -jar /app/checkstyle.jar -c /app/google_checks.xml /app
+          docker run --rm -v "$(pwd)":/app code-linter java -jar checkstyle.jar -c google_checks.xml /app
