@@ -25,6 +25,6 @@ jobs:
 
       - name: Annotate Pull Request
         if: failure()
-        uses: docker://ghcr.io/staabm/annotate-pull-request-from-checkstyle
+        uses: staabm/annotate-pull-request-from-checkstyle-action@v1
         with:
           report_files: checkstyle-result.xml
