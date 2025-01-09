@@ -22,9 +22,3 @@ jobs:
       - name: Run Checkstyle
         run: java -jar checkstyle.jar -c google_checks.xml sample.java
         continue-on-error: true
-
-      - name: Annotate Pull Request
-        if: failure()
-        uses: staabm/annotate-pull-request-from-checkstyle-action@v1
-        with:
-          report_files: checkstyle-result.xml
